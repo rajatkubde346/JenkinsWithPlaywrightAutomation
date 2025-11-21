@@ -23,18 +23,20 @@ pipeline {
 
         stage('Run Tests') {
             steps {
-                bat 'npx playwright test'
+                bat 'npx playwright test --reporter=html'
             }
         }
 
         stage('Publish Report') {
             steps {
-                publishHTML([
-    reportDir: 'playwright-report',
-    reportFiles: 'index.html',
-    reportName: 'Playwright Test Report'
-])
-
+                publishHTML(target: [
+                    reportDir: 'playwright-report',
+                    reportFiles: 'index.html',
+                    reportName: 'Playwright Test Report',
+                    keepAll: true,
+                    alwaysLinkToLastBuild: true,
+                    allowMissing: false
+                ])
             }
         }
     }
