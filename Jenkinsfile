@@ -29,11 +29,12 @@ pipeline {
 
         stage('Publish Report') {
             steps {
-                publishHTML(target: [
-                    reportDir: 'playwright-report',
-                    reportFiles: 'index.html',
-                    reportName: 'Playwright Test Report'
-                ])
+                publishHTML([
+    reportDir: 'playwright-report',
+    reportFiles: 'index.html',
+    reportName: 'Playwright Test Report'
+])
+
             }
         }
     }
