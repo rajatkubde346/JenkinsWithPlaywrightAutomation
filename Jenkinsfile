@@ -23,16 +23,31 @@ pipeline {
 
         stage('Run Tests') {
             steps {
-                bat 'npx playwright test'
+                // clean old allure results (Windows)
+                bat '''
+                if exist allure-results rmdir /S /Q allure-results
+                npx playwright test
+                '''
             }
         }
 
-        stage('Publish Report') {
+        stage('Publish HTML Report') {
             steps {
                 publishHTML(target: [
                     reportDir: 'playwright-report',
                     reportFiles: 'index.html',
                     reportName: 'Playwright Test Report'
+                ])
+            }
+        }
+
+        stage('Publish Allure Report') {
+            steps {
+                // Jenkins Allure plugin step
+                allure([
+                    includeProperties: false,
+                    jdk: '',
+                    results: [[path: 'allure-results']]
                 ])
             }
         }
