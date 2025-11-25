@@ -23,7 +23,6 @@ pipeline {
 
         stage('Run Tests') {
             steps {
-                // clean old allure results (Windows)
                 bat '''
                 if exist allure-results rmdir /S /Q allure-results
                 npx playwright test
@@ -43,7 +42,6 @@ pipeline {
 
         stage('Publish Allure Report') {
             steps {
-                // Jenkins Allure plugin step
                 allure([
                     includeProperties: false,
                     jdk: '',
